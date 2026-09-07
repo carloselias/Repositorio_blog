@@ -3,18 +3,27 @@ const Post = require("../modelos/publicaciones");
 // Crear publicación
 const crearPub = async (req, res) => {
     try {
-        const { title, content, image } = req.body;
+        console.log(">>> CREAR PUB");
+        console.log("REQ.FILE:");
+        console.log(req.file);
+        const { title, content } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({
-                message: "Escribe un titulo y contenido para tu publicación"
+                message: "El título y el contenido son obligatorios"
             });
+        }
+
+        let image = null;
+
+        if (req.file) {
+            image = `/images/${req.file.filename}`;
         }
 
         const post = await Post.create({
             title,
             content,
-            image: image || null,
+            image,
             author: req.user.id
         });
 
@@ -87,7 +96,7 @@ const getPubsId = async (req, res) => {
 // Editar publicación
 const actualizarPub = async (req, res) => {
     try {
-        const { title, content, image } = req.body;
+        const { title, content } = req.body;
 
         const post = await Post.findById(req.params.id);
 
@@ -97,7 +106,6 @@ const actualizarPub = async (req, res) => {
             });
         }
 
-        // Comprobar permisos
         const isAuthor =
             post.author.toString() === req.user.id;
 
@@ -118,8 +126,8 @@ const actualizarPub = async (req, res) => {
             post.content = content;
         }
 
-        if (image !== undefined) {
-            post.image = image;
+        if (req.file) {
+            post.image = `/images/${req.file.filename}`;
         }
 
         await post.save();

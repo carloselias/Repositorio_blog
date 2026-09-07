@@ -8,7 +8,6 @@ const pubRutas = require("./rutas/pubRutas");
 
 const app = express();
 
-// Conectar MongoDB
 conectarDB();
 
 // Middleware
@@ -16,11 +15,10 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: true}));
 
+app.use("/images", express.static("images"));
 
-// Rutas
 app.use("/api/aut", autRutas);
 app.use("/api/pub", pubRutas);
-
 
 // Ruta de prueba
 app.get("/", (req, res) => {
@@ -28,7 +26,6 @@ app.get("/", (req, res) => {
         message: "API del blog funcionando"
     });
 });
-
 
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;

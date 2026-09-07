@@ -9,18 +9,27 @@ const {
 } = require("../controladores/pubControlador");
 
 const autMiddleware = require("../middleware/autMiddleware");
+const subir = require("../middleware/subirMiddleware");
 
 const router = express.Router();
 
-// Lectura pública
 router.get("/", getPubs);
 
 router.get("/:id", getPubsId);
 
-// Operaciones que requieren autenticación
-router.post("/", autMiddleware, crearPub);
+router.post(
+    "/",
+    autMiddleware,
+    subir.single("image"),
+    crearPub
+);
 
-router.put("/:id", autMiddleware, actualizarPub);
+router.put(
+    "/:id",
+    autMiddleware,
+    subir.single("image"),
+    actualizarPub
+);
 
 router.delete("/:id", autMiddleware, eliminarPub);
 
