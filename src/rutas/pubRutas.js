@@ -10,7 +10,7 @@ const {
 
 const autMiddleware = require("../middleware/autMiddleware");
 const subir = require("../middleware/subirMiddleware");
-
+const validarPub = require("../middleware/pubMiddleware");
 const router = express.Router();
 
 router.get("/", getPubs);
@@ -21,6 +21,7 @@ router.post(
     "/",
     autMiddleware,
     subir.single("image"),
+    validarPub,
     crearPub
 );
 
@@ -28,6 +29,7 @@ router.put(
     "/:id",
     autMiddleware,
     subir.single("image"),
+    validarPub,
     actualizarPub
 );
 

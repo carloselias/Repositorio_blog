@@ -3,16 +3,7 @@ const Post = require("../modelos/publicaciones");
 // Crear publicación
 const crearPub = async (req, res) => {
     try {
-        console.log(">>> CREAR PUB");
-        console.log("REQ.FILE:");
-        console.log(req.file);
         const { title, content } = req.body;
-
-        if (!title || !content) {
-            return res.status(400).json({
-                message: "El título y el contenido son obligatorios"
-            });
-        }
 
         let image = null;
 
