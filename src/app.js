@@ -10,6 +10,15 @@ const app = express();
 
 conectarDB();
 
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "../public")));
+
+app.use(
+    "/images",
+    express.static(path.join(__dirname, "../images"))
+);
+
 // Middleware
 app.use(express.json());
 

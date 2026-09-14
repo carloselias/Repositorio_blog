@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blog 1</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
+
+    <header class="blog-header">
+
+        <div class="header-container">
+
+            <a href="#" class="blog-logo">
+                Blog 1
+            </a>
+
+            <nav class="main-navigation">
+                <a href="#" class="nav-link">Inicio</a>
+                <a href="#" class="nav-link">Mis publicaciones</a>
+                <a href="#" class="nav-link">Crear publicación</a>
+            </nav>
+
+            <div class="user-section">
+
+                <span class="user-name">
+                    Usuario
+                </span>
+
+                <button class="logout-button">
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="blog-main">
+
+        <section class="posts-section">
+
+            <div class="section-header">
+
+                <h1 class="section-title">
+                    Publicaciones
+                </h1>
+
+                <button class="create-post-button">
+                    Nueva publicación
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 LISTA DE PUBLICACIONES
+            ================================== -->
+
+            <div class="posts-list">
+
+
+                <!-- =================================
+                     PUBLICACIÓN
+                ================================== -->
+
+                <article class="post-card">
+
+                    <!-- Imagen -->
+
+                    <div class="post-image-container">
+
+                        <img
+                            class="post-image"
+                            src="/uploads/imagen-ejemplo.jpg"
+                            alt="Imagen de la publicación"
+                        >
+
+                    </div>
+
+
+                    <!-- Información -->
+
+                    <div class="post-content">
+
+                        <h2 class="post-title">
+                            Título de la publicación
+                        </h2>
+
+
+                        <div class="post-metadata">
+
+                            <span class="post-author">
+                                Autor de la publicación
+                            </span>
+
+                            <span class="metadata-separator">
+                                •
+                            </span>
+
+                            <time class="post-date">
+                                14 de septiembre de 2026
+                            </time>
+
+                        </div>
+
+
+                        <!-- Contenido -->
+
+                        <div class="post-body">
+
+                            <p class="post-text">
+                                Este es el contenido de la publicación.
+                                Aquí aparecerá el texto que el usuario
+                                haya registrado en el blog.
+                            </p>
+
+                        </div>
+
+
+                        <!-- =================================
+                             INTERACCIONES
+                        ================================== -->
+
+                        <div class="post-interactions">
+
+                            <!-- Like -->
+
+                            <button
+                                class="like-button"
+                                type="button"
+                            >
+                                <span class="like-icon">
+                                    ♡
+                                </span>
+
+                                <span class="like-text">
+                                    Me gusta
+                                </span>
+
+                                <span class="like-count">
+                                    0
+                                </span>
+
+                            </button>
+
+
+                            <!-- Comentarios -->
+
+                            <button
+                                class="comments-button"
+                                type="button"
+                            >
+                                <span class="comments-icon">
+                                    Comentarios
+                                </span>
+
+                                <span class="comments-count">
+                                    0
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- =================================
+                             ACCIONES DEL POST
+                        ================================== -->
+
+                        <div class="post-actions">
+
+                            <button
+                                class="edit-post-button"
+                                type="button"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                class="delete-post-button"
+                                type="button"
+                            >
+                                Eliminar
+                            </button>
+
+                        </div>
+
+
+                        <!-- =================================
+                             COMENTARIOS
+                             Actualmente sin implementar
+                        ================================== -->
+
+                        <section class="comments-section">
+
+                            <h3 class="comments-title">
+                                Comentarios
+                            </h3>
+
+
+                            <!-- Formulario de comentario -->
+
+                            <form class="comment-form">
+
+                                <textarea
+                                    class="comment-input"
+                                    placeholder="Escribe un comentario..."
+                                    rows="3"
+                                ></textarea>
+
+                                <button
+                                    class="comment-submit-button"
+                                    type="submit"
+                                >
+                                    Comentar
+                                </button>
+
+                            </form>
+
+
+                            <!-- Lista de comentarios -->
+
+                            <div class="comments-list">
+
+                                <article class="comment-item">
+
+                                    <div class="comment-header">
+
+                                        <span class="comment-author">
+                                            Nombre del usuario
+                                        </span>
+
+                                        <time class="comment-date">
+                                            Fecha
+                                        </time>
+
+                                    </div>
+
+                                    <p class="comment-text">
+                                        Este sería un comentario de ejemplo.
+                                    </p>
+
+                                </article>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================
+                     SEGUNDA PUBLICACIÓN DE EJEMPLO
+                ================================== -->
+
+                <article class="post-card">
+
+                    <div class="post-image-container">
+
+                        <img
+                            class="post-image"
+                            src="/uploads/otra-imagen.jpg"
+                            alt="Imagen de la publicación"
+                        >
+
+                    </div>
+
+                    <div class="post-content">
+
+                        <h2 class="post-title">
+                            Otra publicación
+                        </h2>
+
+                        <div class="post-metadata">
+
+                            <span class="post-author">
+                                Otro autor
+                            </span>
+
+                            <span class="metadata-separator">
+                                •
+                            </span>
+
+                            <time class="post-date">
+                                13 de septiembre de 2026
+                            </time>
+
+                        </div>
+
+                        <div class="post-body">
+
+                            <p class="post-text">
+                                Segundo artículo de ejemplo.
+                            </p>
+
+                        </div>
+
+                        <div class="post-interactions">
+
+                            <button
+                                class="like-button"
+                                type="button"
+                            >
+                                <span class="like-icon">
+                                    ♡
+                                </span>
+
+                                <span class="like-text">
+                                    Me gusta
+                                </span>
+
+                                <span class="like-count">
+                                    0
+                                </span>
+                            </button>
+
+                            <button
+                                class="comments-button"
+                                type="button"
+                            >
+                                <span class="comments-icon">
+                                    Comentarios
+                                </span>
+
+                                <span class="comments-count">
+                                    0
+                                </span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         PIE DE PÁGINA
+    ========================================== -->
+
+    <footer class="blog-footer">
+
+        <p class="footer-text">
+            © 2026 Mi Blog. Todos los derechos reservados.
+        </p>
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
+```
