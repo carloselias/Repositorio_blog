@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Error de conexión</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+</head>
+
+<body>
+
+    <main class="database-error-page">
+
+        <section class="database-error-card">
+
+            <div class="database-error-icon">
+                <img src="/svg/error.svg" alt="" aria-hidden="true" class="database-error-logo">
+            </div>
+
+            <h1 class="database-error-title">
+                Error de conexión
+            </h1>
+
+            <p class="database-error-description">
+                No fue posible establecer conexión
+                con la base de datos.
+            </p>
+
+            <div class="database-error-code-container">
+
+                <span class="database-error-code-label">
+                    Código de error:
+                </span>
+
+                <code
+                    id="database-error-code"
+                    class="database-error-code"
+                >
+                    Desconocido
+                </code>
+
+            </div>
+
+            <p class="database-error-help">
+                Envia un correo a celiass@miumg.edu.gt para reestablecer la conexión.
+            </p>
+
+            <button
+                type="button"
+                class="database-error-retry"
+                onclick="window.location.href='index.html'"
+            >
+                Volver a intentar
+            </button>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const errorCode =
+            params.get("code");
+
+        const codeElement =
+            document.querySelector(
+                "#database-error-code"
+            );
+
+        if (errorCode) {
+
+            codeElement.textContent =
+                errorCode;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const conectarDB = async () => {
+let databaseError = null;
+const conectarBD = async () => {
     try {
         // Tomar la URI desde las variables de entorno
         const uri = process.env.MONGODB_URI; 
@@ -12,11 +12,79 @@ const conectarDB = async () => {
         // Establecer la conexión
         await mongoose.connect(uri);
         console.log('Conexión a la base de datos establecida');
+        databaseError = null;
     }
     catch (error) {
-        console.error('Error al conectar a la base de datos:', error);
-        process.exit(1);
+        console.error(
+            "Error de conexión a MongoDB:",
+            error
+        );
+
+        databaseError =
+            error.code ||
+            error.name ||
+            "DATABASE_CONNECTION_ERROR";
+
+        throw error;
     }
 };
 
-module.exports = conectarDB;
+mongoose.connection.on(
+    "connected",
+    () => {
+
+        console.log(
+            "MongoDB: conexión establecida"
+        );
+
+        databaseError = null;
+    }
+);
+mongoose.connection.on(
+    "disconnected",
+    () => {
+
+        console.error(
+            "MongoDB: conexión perdida"
+        );
+
+        databaseError =
+            "DATABASE_DISCONNECTED";
+    }
+);
+mongoose.connection.on(
+    "reconnected",
+    () => {
+
+        console.log(
+            "MongoDB: conexión restablecida"
+        );
+
+        databaseError = null;
+    }
+);
+mongoose.connection.on(
+    "error",
+    (error) => {
+
+        console.error(
+            "MongoDB: error de conexión:",
+            error
+        );
+
+        databaseError =
+            error.code ||
+            error.name ||
+            "DATABASE_CONNECTION_ERROR";
+    }
+);
+
+const getDatabaseError = () => {
+
+    return databaseError;
+};
+
+module.exports = {
+    conectarBD,
+    getDatabaseError
+};

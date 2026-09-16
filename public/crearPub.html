@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Crear publicación</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =========================
+         ENCABEZADO
+         ========================= -->
+
+    <header class="blog-header">
+
+        <div class="header-container">
+
+            <a
+                href="index.html"
+                class="blog-logo"
+            >
+                Blog 1
+            </a>
+
+            <nav class="main-navigation">
+
+                <a
+                    href="index.html"
+                    class="nav-link"
+                >
+                    Inicio
+                </a>
+
+            </nav>
+
+            <div class="user-section">
+
+                <span
+                    id="user-name"
+                    class="user-name"
+                >
+                    Cargando...
+                </span>
+
+                <button
+                    type="button"
+                    id="logout-button"
+                    class="logout-button"
+                >
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+         ========================= -->
+
+    <main class="create-post-main">
+
+        <section class="create-post-section">
+
+            <div class="create-post-header">
+
+                <h1 class="create-post-title">
+                    Crear nueva publicación
+                </h1>
+
+                <p class="create-post-description">
+                    Comparte una nueva publicación con los demás usuarios.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 FORMULARIO
+                 ========================= -->
+
+            <form
+                id="create-post-form"
+                class="create-post-form"
+            >
+
+                <!-- TÍTULO -->
+
+                <div class="create-form-group">
+
+                    <label
+                        for="post-title"
+                        class="create-form-label"
+                    >
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="post-title"
+                        name="title"
+                        class="create-form-input"
+                        placeholder="Escribe el título de tu publicación"
+                        minlength="5"
+                        maxlength="150"
+                        required
+                    >
+
+                    <small class="create-form-help">
+                        Entre 5 y 150 caracteres.
+                    </small>
+
+                </div>
+
+
+                <!-- CONTENIDO -->
+
+                <div class="create-form-group">
+
+                    <label
+                        for="post-content"
+                        class="create-form-label"
+                    >
+                        Contenido
+                    </label>
+
+                    <textarea
+                        id="post-content"
+                        name="content"
+                        class="create-form-textarea"
+                        placeholder="Escribe el contenido de tu publicación..."
+                        minlength="10"
+                        required
+                    ></textarea>
+
+                    <small class="create-form-help">
+                        El contenido debe tener al menos 10 caracteres.
+                    </small>
+
+                </div>
+
+
+                <!-- IMAGEN -->
+
+                <div class="create-form-group">
+
+                    <label
+                        for="post-image"
+                        class="create-form-label"
+                    >
+                        Imagen
+                    </label>
+
+                    <input
+                        type="file"
+                        id="post-image"
+                        name="image"
+                        class="create-form-file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                    >
+
+                    <small class="create-form-help">
+                        Formatos permitidos: JPG, PNG, WEBP y GIF.
+                        Tamaño máximo: 5 MB.
+                    </small>
+
+                </div>
+
+
+                <!-- VISTA PREVIA -->
+
+                <div
+                    id="image-preview-container"
+                    class="image-preview-container"
+                    style="display: none;"
+                >
+
+                    <p class="image-preview-title">
+                        Vista previa
+                    </p>
+
+                    <img
+                        id="image-preview"
+                        class="image-preview"
+                        src=""
+                        alt="Vista previa de la imagen"
+                    >
+
+                </div>
+
+
+                <!-- MENSAJE -->
+
+                <p
+                    id="create-post-message"
+                    class="create-post-message"
+                ></p>
+
+
+                <!-- BOTONES -->
+
+                <div class="create-post-actions">
+
+                    <button
+                        type="button"
+                        id="cancel-post-button"
+                        class="cancel-post-button"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        id="publish-post-button"
+                        class="publish-post-button"
+                    >
+                        Publicar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
+    <script src="crearPub.js"></script>
+
+</body>
+
+</html>

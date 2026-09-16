@@ -21,26 +21,39 @@
         <div class="header-container">
 
             <a href="#" class="blog-logo">
-                Blog 1
+                <img src="/svg/logo.svg" alt="" aria-hidden="true">
+                <span class="blog-logo-text">Blog 1</span>
             </a>
 
             <nav class="main-navigation">
                 <a href="#" class="nav-link">Inicio</a>
                 <a href="#" class="nav-link">Mis publicaciones</a>
-                <a href="#" class="nav-link">Crear publicación</a>
+                <a href="#" class="nav-link-create-post">Crear publicación</a>
             </nav>
 
             <div class="user-section">
 
                 <span class="user-name">
-                    Usuario
+                    Invitado
                 </span>
 
-                <button class="logout-button">
+                <button
+                    id="login-button"
+                    class="login-button"
+                >
+                    Iniciar sesión
+                </button>
+
+                <button
+                    id="logout-button"
+                    class="logout-button"
+                    style="display: none;"
+                >
                     Cerrar sesión
                 </button>
 
             </div>
+
 
         </div>
 
@@ -358,6 +371,81 @@
 
     </main>
 
+    <!-- =========================
+        MODAL DE INICIO DE SESIÓN
+    ========================= -->
+
+    <div id="login-modal" class="login-modal">
+
+        <div class="login-modal-content">
+
+            <button
+                type="button"
+                id="close-login-modal"
+                class="login-close-button"
+            >
+                &times;
+            </button>
+
+            <div class="login-header">
+                <h2>Iniciar sesión</h2>
+                <p>Ingresa a tu cuenta para continuar</p>
+            </div>
+
+            <form id="login-form">
+
+                <div class="login-form-group">
+
+                    <label for="login-email">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        placeholder="correo@ejemplo.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+                <div class="login-form-group">
+
+                    <label for="login-password">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        placeholder="Ingresa tu contraseña"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <p
+                    id="login-message"
+                    class="login-message"
+                ></p>
+
+                <button
+                    type="submit"
+                    class="login-submit-button"
+                >
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
 
     <!-- =========================================
          PIE DE PÁGINA
@@ -366,7 +454,7 @@
     <footer class="blog-footer">
 
         <p class="footer-text">
-            © 2026 Mi Blog. Todos los derechos reservados.
+            © Blog 1. Blog educativo.
         </p>
 
     </footer>
@@ -377,4 +465,3 @@
 </body>
 
 </html>
-```

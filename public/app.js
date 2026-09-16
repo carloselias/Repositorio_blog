@@ -1,8 +1,6 @@
+let currentUser = null;
+let redirectToCreatePost = false;
 const API_URL = "/api";
-
-/* =========================
-   PUBLICACIONES
-========================= */
 
 async function getPosts() {
 
@@ -29,7 +27,6 @@ async function getPosts() {
     }
 }
 
-
 async function loadPosts() {
 
     const posts = await getPosts();
@@ -37,9 +34,7 @@ async function loadPosts() {
     renderPosts(posts);
 }
 
-
 function renderPosts(posts) {
-
     const container =
         document.querySelector(".posts-list");
 
@@ -50,6 +45,43 @@ function renderPosts(posts) {
     container.innerHTML = "";
 
     posts.forEach(post => {
+        const authorId =
+            post.author?._id?.toString();
+
+        const currentUserId =
+            currentUser?._id?.toString();
+
+        const isAuthor =
+            currentUser &&
+            authorId === currentUserId;
+
+        const isAdmin =
+            currentUser?.role === "admin";
+
+        const canModify =
+            isAuthor || isAdmin;
+
+        const actionsHTML = canModify
+            ? `
+                <div class="post-actions">
+
+                    <button
+                        class="edit-post-button"
+                        data-id="${post._id}"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="delete-post-button"
+                        data-id="${post._id}"
+                    >
+                        Eliminar
+                    </button>
+
+                </div>
+            `
+            : "";
 
         const article =
             document.createElement("article");
@@ -62,11 +94,13 @@ function renderPosts(posts) {
                 post.image
                 ? `
                     <div class="post-image-container">
+
                         <img
                             src="${post.image}"
                             alt="${post.title}"
                             class="post-image"
                         >
+
                     </div>
                 `
                 : ""
@@ -104,10 +138,6 @@ function renderPosts(posts) {
                         class="like-button"
                         data-id="${post._id}"
                     >
-                        <span class="like-icon">
-                            ♥
-                        </span>
-
                         <span class="like-text">
                             Me gusta
                         </span>
@@ -121,34 +151,17 @@ function renderPosts(posts) {
                         class="comments-button"
                         data-id="${post._id}"
                     >
-                        <span class="comments-icon">
-                            💬
-                        </span>
+                        Comentarios
 
                         <span class="comments-count">
                             0
                         </span>
+
                     </button>
 
                 </div>
 
-                <div class="post-actions">
-
-                    <button
-                        class="edit-post-button"
-                        data-id="${post._id}"
-                    >
-                        Editar
-                    </button>
-
-                    <button
-                        class="delete-post-button"
-                        data-id="${post._id}"
-                    >
-                        Eliminar
-                    </button>
-
-                </div>
+                ${actionsHTML}
 
             </div>
         `;
@@ -156,11 +169,6 @@ function renderPosts(posts) {
         container.appendChild(article);
     });
 }
-
-
-/* =========================
-   FECHAS
-========================= */
 
 function formatDate(date) {
 
@@ -174,10 +182,67 @@ function formatDate(date) {
     );
 }
 
+async function login(email, password) {
 
-/* =========================
-   AUTENTICACIÓN
-========================= */
+    try {
+
+        const response = await fetch(
+            `${API_URL}/aut/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Error al iniciar sesión"
+            );
+        }
+
+        /*
+         * Guardamos el JWT
+         */
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+        /*
+         * Si el login devuelve el usuario,
+         * lo utilizamos directamente.
+         */
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+        currentUser = await getCurrentUser();
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "Error de login:",
+            error
+        );
+
+        throw error;
+    }
+}
 
 async function getCurrentUser() {
 
@@ -201,6 +266,16 @@ async function getCurrentUser() {
                 }
             );
 
+        /*
+         * Token inválido o expirado
+         */
+        if (response.status === 401) {
+
+            localStorage.removeItem("token");
+
+            return null;
+        }
+
         if (!response.ok) {
             return null;
         }
@@ -212,12 +287,84 @@ async function getCurrentUser() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error obteniendo usuario:",
+            error
+        );
 
         return null;
     }
 }
 
+function openLoginModal() {
+
+    const modal =
+        document.querySelector("#login-modal");
+
+    const email =
+        document.querySelector("#login-email");
+
+    const message =
+        document.querySelector("#login-message");
+
+    message.textContent = "";
+
+    modal.style.display = "flex";
+
+    email.focus();
+}
+
+function closeLoginModal() {
+
+    const modal =
+        document.querySelector("#login-modal");
+
+    modal.style.display = "none";
+}
+
+function updateUserInterface() {
+
+    const userName =
+        document.querySelector(".user-name");
+
+    const loginButton =
+        document.querySelector("#login-button");
+
+    const logoutButton =
+        document.querySelector("#logout-button");
+
+
+    if (currentUser) {
+
+        /*
+         * Usuario autenticado
+         */
+
+        userName.textContent =
+            currentUser.name;
+
+        loginButton.style.display =
+            "none";
+
+        logoutButton.style.display =
+            "inline-block";
+
+    } else {
+
+        /*
+         * Usuario no autenticado
+         */
+
+        userName.textContent =
+            "Invitado";
+
+        loginButton.style.display =
+            "inline-block";
+
+        logoutButton.style.display =
+            "none";
+    }
+}
 
 /* =========================
    ELIMINAR POST
@@ -264,10 +411,215 @@ async function deletePost(id) {
     }
 }
 
-
 /* =========================
    EVENTOS
 ========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        /*
+         * Comprobar si ya existe
+         * una sesión guardada
+         */
+        currentUser =
+            await getCurrentUser();
+
+        updateUserInterface();
+
+        /*
+         * Cargar publicaciones después
+         * de conocer al usuario.
+         */
+        await loadPosts();
+
+
+        /* -------------------------
+           Abrir login
+           ------------------------- */
+
+        document
+            .querySelector("#login-button")
+            .addEventListener(
+                "click",
+                openLoginModal
+            );
+
+        /* -------------------------
+        Crear publicación
+        ------------------------- */
+
+        document
+        .querySelectorAll(".create-post-button, .nav-link-create-post")
+        .forEach((button) => {
+            button.addEventListener("click", () => {
+            if (currentUser) {
+                window.location.href = "crearPub.html";
+                return;
+            }
+
+            redirectToCreatePost = true;
+            openLoginModal();
+            });
+        });
+
+
+        /* -------------------------
+           Cerrar login
+           ------------------------- */
+
+        document
+            .querySelector("#close-login-modal")
+            .addEventListener(
+                "click",
+                closeLoginModal
+            );
+
+
+        /* -------------------------
+           Cerrar haciendo clic
+           fuera del formulario
+           ------------------------- */
+
+        document
+            .querySelector("#login-modal")
+            .addEventListener(
+                "click",
+                (event) => {
+
+                    if (
+                        event.target.id ===
+                        "login-modal"
+                    ) {
+
+                        closeLoginModal();
+                    }
+                }
+            );
+
+
+        /* -------------------------
+           Formulario
+           ------------------------- */
+
+        document
+            .querySelector("#login-form")
+            .addEventListener(
+                "submit",
+                async (event) => {
+
+                    event.preventDefault();
+
+
+                    const email =
+                        document
+                            .querySelector(
+                                "#login-email"
+                            )
+                            .value
+                            .trim();
+
+
+                    const password =
+                        document
+                            .querySelector(
+                                "#login-password"
+                            )
+                            .value;
+
+
+                    const message =
+                        document
+                            .querySelector(
+                                "#login-message"
+                            );
+
+
+                    message.textContent =
+                        "Iniciando sesión...";
+
+
+                    try {
+                        await login(
+                            email,
+                            password
+                        );
+
+                        /*
+                         * Actualizar header
+                         */
+                        updateUserInterface();
+
+                                                /*
+                        * Si el login fue iniciado desde
+                        * "Crear publicación", ir a la
+                        * pantalla de creación.
+                        */
+                        if (redirectToCreatePost) {
+
+                            redirectToCreatePost = false;
+
+                            window.location.href =
+                                "crearPub.html";
+
+                            return;
+                        }
+
+                        /*
+                         * Cerrar modal
+                         */
+                        closeLoginModal();
+
+
+                        /*
+                         * Limpiar formulario
+                         */
+                        document
+                            .querySelector(
+                                "#login-form"
+                            )
+                            .reset();
+
+
+                        /*
+                         * Volver a renderizar
+                         * publicaciones.
+                         */
+                        await loadPosts();
+                    } catch (error) {
+
+                        message.textContent =
+                            error.message;
+                    }
+                }
+            );
+
+
+        /* -------------------------
+           Cerrar sesión
+           ------------------------- */
+
+        document
+            .querySelector("#logout-button")
+            .addEventListener(
+                "click",
+                async () => {
+
+                    localStorage.removeItem(
+                        "token"
+                    );
+
+                    currentUser = null;
+
+                    updateUserInterface();
+
+                    await loadPosts();
+                }
+            );
+
+    }
+);
 
 document.addEventListener(
     "click",
@@ -294,7 +646,6 @@ document.addEventListener(
 
     }
 );
-
 
 /* =========================
    INICIO
