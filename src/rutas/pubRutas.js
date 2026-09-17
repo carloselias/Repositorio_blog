@@ -5,7 +5,8 @@ const {
     getPubs,
     getPubsId,
     actualizarPub,
-    eliminarPub
+    eliminarPub,
+    toggleLike
 } = require("../controladores/pubControlador");
 
 const autMiddleware = require("../middleware/autMiddleware");
@@ -23,6 +24,12 @@ router.post(
     subir.single("image"),
     validarPub,
     crearPub
+);
+
+router.post(
+    "/:id/like",
+    autMiddleware,
+    toggleLike
 );
 
 router.put(

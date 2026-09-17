@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Editar publicación</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+</head>
+
+<body>
+
+    <header class="blog-header">
+
+        <div class="header-container">
+
+            <a
+                href="index.html"
+                class="blog-logo"
+            >
+                Blog 1
+            </a>
+
+            <div class="user-section">
+
+                <span
+                    id="user-name"
+                    class="user-name"
+                >
+                    Cargando...
+                </span>
+
+                <button
+                    id="logout-button"
+                    class="logout-button"
+                >
+                    Cerrar sesión
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="blog-main">
+
+        <section class="edit-post-section">
+
+            <div class="section-header">
+
+                <h1 class="section-title">
+                    Editar publicación
+                </h1>
+
+            </div>
+
+
+            <form
+                id="edit-post-form"
+                class="post-form"
+            >
+
+                <!-- TÍTULO -->
+
+                <div class="form-group">
+
+                    <label
+                        for="post-title"
+                        class="form-label"
+                    >
+                        Título
+                    </label>
+
+                    <input
+                        type="text"
+                        id="post-title"
+                        class="form-input"
+                        maxlength="150"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CONTENIDO -->
+
+                <div class="form-group">
+
+                    <label
+                        for="post-content"
+                        class="form-label"
+                    >
+                        Contenido
+                    </label>
+
+                    <textarea
+                        id="post-content"
+                        class="form-textarea"
+                        rows="10"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- IMAGEN ACTUAL -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                    >
+                        Imagen actual
+                    </label>
+
+                    <div
+                        id="current-image-container"
+                        class="current-image-container"
+                    >
+
+                        <p id="no-image-message">
+                            Esta publicación no tiene imagen.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NUEVA IMAGEN -->
+
+                <div class="form-group">
+
+                    <label
+                        for="post-image"
+                        class="form-label"
+                    >
+                        Cambiar imagen
+                    </label>
+
+                    <input
+                        type="file"
+                        id="post-image"
+                        class="form-input"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                    >
+
+                    <small class="form-help">
+                        Selecciona una nueva imagen solamente
+                        si deseas reemplazar la actual.
+                    </small>
+
+                </div>
+
+
+                <!-- VISTA PREVIA -->
+
+                <div
+                    id="image-preview-container"
+                    class="image-preview-container"
+                    style="display: none;"
+                >
+
+                    <p class="form-label">
+                        Vista previa de la nueva imagen
+                    </p>
+
+                    <img
+                        id="image-preview"
+                        class="post-image"
+                        alt="Vista previa"
+                    >
+
+                </div>
+
+
+                <!-- BOTONES -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="index.html"
+                        class="cancel-button"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        id="save-post-button"
+                        class="save-post-button"
+                    >
+                        Guardar cambios
+                    </button>
+
+                </div>
+
+
+                <!-- MENSAJE -->
+
+                <p
+                    id="form-message"
+                    class="form-message"
+                ></p>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="editarPub.js"></script>
+
+</body>
+
+</html>

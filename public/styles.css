@@ -28,7 +28,9 @@ body {
 }
 
 button,
-textarea {
+input,
+textarea,
+select {
     font: inherit;
 }
 
@@ -248,7 +250,7 @@ button {
 .like-button,
 .comments-button,
 .edit-post-button,
-.delete-post-button {
+.delete-post-button, .delete-comment-button {
     border: 1px solid var(--color-border);
     border-radius: 0.45rem;
     padding: 0.5rem 0.75rem;
@@ -283,12 +285,12 @@ button {
     color: var(--color-muted);
 }
 
-.delete-post-button {
+.delete-post-button, .delete-comment-button {
     border-color: #fecaca;
     color: var(--color-danger);
 }
 
-.delete-post-button:hover {
+.delete-post-button:hover, .delete-comment-button:hover {
     background: #fef2f2;
     border-color: var(--color-danger);
 }
@@ -732,6 +734,150 @@ button {
     border-color: var(--color-primary-dark);
     background: var(--color-primary-dark);
     transform: translateY(-1px);
+}
+
+.edit-post-section {
+    width: min(100%, 720px);
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.8rem;
+    box-shadow: var(--shadow);
+}
+
+.post-form {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.form-label {
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: 400;
+}
+
+.form-input {
+    padding: 0.75rem;
+}
+
+.form-textarea {
+    min-height: 180px;
+    padding: 0.75rem;
+    resize: vertical;
+}
+
+.form-input[type="file"] {
+    padding: 0.45rem;
+    cursor: pointer;
+}
+
+.form-input[type="file"]::file-selector-button {
+    margin-right: 0.75rem;
+    border: 0;
+    border-radius: 0.35rem;
+    padding: 0.45rem 0.7rem;
+    background: var(--color-primary);
+    color: var(--color-surface);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: 3px solid var(--color-border);
+    border-color: var(--color-primary);
+}
+
+.form-help {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+}
+
+.current-image-container {
+    min-height: 120px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-page);
+    color: var(--color-muted);
+}
+
+.current-image-container .post-image {
+    width: 100%;
+    max-height: 360px;
+    object-fit: contain;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+}
+
+.cancel-button,
+.save-post-button {
+    border-radius: 0.5rem;
+    padding: 0.7rem 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.cancel-button {
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-muted);
+}
+
+.cancel-button:hover {
+    border-color: var(--color-muted);
+    color: var(--color-text);
+}
+
+.save-post-button {
+    border: 1px solid var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.save-post-button:hover {
+    border-color: var(--color-primary-dark);
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+}
+
+.form-message {
+    min-height: 1.5rem;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.error-message {
+    color: var(--color-danger);
+}
+
+.success-message {
+    color: var(--color-primary-dark);
 }
 
 button:focus-visible,

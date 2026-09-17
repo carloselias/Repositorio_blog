@@ -152,41 +152,36 @@
 
                         <div class="post-interactions">
 
-                            <!-- Like -->
-
                             <button
                                 class="like-button"
-                                type="button"
+                                data-id="${post._id}"
                             >
-                                <span class="like-icon">
-                                    ♡
-                                </span>
+                                <span class="like-icon">♥</span>
 
                                 <span class="like-text">
                                     Me gusta
                                 </span>
 
                                 <span class="like-count">
-                                    0
+                                    ${post.likes?.length || 0}
                                 </span>
-
                             </button>
-
-
-                            <!-- Comentarios -->
 
                             <button
                                 class="comments-button"
-                                type="button"
+                                data-id="${post._id}"
                             >
                                 <span class="comments-icon">
+                                    💬
+                                </span>
+
+                                <span class="comments-text">
                                     Comentarios
                                 </span>
 
                                 <span class="comments-count">
                                     0
                                 </span>
-
                             </button>
 
                         </div>

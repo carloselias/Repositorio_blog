@@ -6,7 +6,7 @@ const {conectarBD,
 } = require("./bd/conexion");
 const autRutas= require("./rutas/autRutas");
 const pubRutas = require("./rutas/pubRutas");
-
+const comRutas = require("./rutas/comRutas");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -41,7 +41,7 @@ app.use("/images", express.static("images"));
 
 app.use("/api/aut", autRutas);
 app.use("/api/pub", pubRutas);
-
+app.use("/api", comRutas);
 // Ruta de prueba
 app.get("/", (req, res) => {
     res.json({

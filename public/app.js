@@ -37,7 +37,7 @@ async function loadPosts() {
 function renderPosts(posts) {
     const container =
         document.querySelector(".posts-list");
-
+    
     if (!container) {
         return;
     }
@@ -154,10 +154,39 @@ function renderPosts(posts) {
                         Comentarios
 
                         <span class="comments-count">
-                            0
+                            #
                         </span>
 
                     </button>
+
+                </div>
+
+                <div class="comments-section" hidden>
+
+                    <h3 class="comments-title">
+                        Comentarios
+                    </h3>
+
+                    <form class="comment-form">
+
+                        <textarea
+                            class="comment-input"
+                            placeholder="Escribe un comentario..."
+                            maxlength="500"
+                            required
+                        ></textarea>
+
+                        <button
+                            type="submit"
+                            class="comment-submit-button"
+                        >
+                            Comentar
+                        </button>
+
+                    </form>
+
+                    <div class="comments-list">
+                    </div>
 
                 </div>
 
@@ -171,13 +200,14 @@ function renderPosts(posts) {
 }
 
 function formatDate(date) {
-
     return new Date(date).toLocaleDateString(
         "es-GT",
         {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
         }
     );
 }
@@ -366,10 +396,6 @@ function updateUserInterface() {
     }
 }
 
-/* =========================
-   ELIMINAR POST
-========================= */
-
 async function deletePost(id) {
 
     const token =
@@ -408,6 +434,274 @@ async function deletePost(id) {
         console.error(error);
 
         alert(error.message);
+    }
+}
+
+async function toggleLike(postId) {
+
+    const token =
+        localStorage.getItem("token");
+
+    if (!token) {
+
+        alert(
+            "Debes iniciar sesión para dar like"
+        );
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/pub/${postId}/like`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Error al procesar el like"
+            );
+        }
+
+        return data;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+        return null;
+    }
+}
+
+async function getComments(postId) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/pub/${postId}/comentarios`
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Error al obtener comentarios"
+            );
+        }
+
+        return data.comments;
+
+    } catch (error) {
+
+        console.error(error);
+
+        return [];
+    }
+}
+
+function renderComments(
+    comments,
+    container
+) {
+
+    container.innerHTML = "";
+
+    if (comments.length === 0) {
+
+        container.innerHTML = `
+            <p class="no-comments">
+                No hay comentarios todavía.
+            </p>
+        `;
+
+        return;
+    }
+
+    comments.forEach(comment => {
+        
+        const authorId =
+            comment.author?._id?.toString();
+
+        const currentUserId =
+            currentUser?._id?.toString();
+
+        const isAuthor =
+            currentUser &&
+            authorId === currentUserId;
+
+        const isAdmin =
+            currentUser?.role === "admin";
+
+        const canModify =
+            isAuthor || isAdmin;
+
+        const actionsHTML = canModify
+            ? `
+                <button
+                    class="delete-comment-button"
+                    data-id="${comment._id}"
+                >
+                    Eliminar
+                </button>
+            `
+            : "";
+
+        const commentElement =
+            document.createElement("div");
+
+        commentElement.className =
+            "comment-item";
+
+        commentElement.innerHTML = `
+
+            <div class="comment-header">
+
+                <span class="comment-author">
+                    ${comment.author.name}
+                </span>
+
+                <span class="comment-date">
+                    ${formatDate(comment.createdAt)}
+                </span>
+
+            </div>
+
+            <p class="comment-text">
+                ${comment.content}
+            </p>
+
+            ${actionsHTML}
+
+        `;
+
+        container.appendChild(
+            commentElement
+        );
+    });
+}
+
+async function createComment(
+    postId,
+    content
+) {
+
+    const token =
+        localStorage.getItem("token");
+
+    if (!token) {
+
+        alert(
+            "Debes iniciar sesión para comentar"
+        );
+
+        return null;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/pub/${postId}/comentarios`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        content
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Error al crear comentario"
+            );
+        }
+
+        return data.comment;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+        return null;
+    }
+}
+
+async function deleteComment(commentId) {
+
+    const token =
+        localStorage.getItem("token");
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/comentarios/${commentId}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Error al eliminar comentario"
+            );
+        }
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+        return false;
     }
 }
 
@@ -625,6 +919,106 @@ document.addEventListener(
     "click",
     async (event) => {
 
+        // =========================
+        // EDITAR POST
+        // =========================
+
+        const editButton =
+            event.target.closest(
+                ".edit-post-button"
+            );
+
+        if (editButton) {
+
+            const postId =
+                editButton.dataset.id;
+
+            window.location.href =
+                `editarPub.html?id=${postId}`;
+
+            return;
+        }
+
+        // =========================
+        // LIKE
+        // =========================
+
+        const likeButton =
+            event.target.closest(".like-button");
+
+        if (likeButton) {
+
+            const postId =
+                likeButton.dataset.id;
+
+            const result =
+                await toggleLike(postId);
+
+            if (result) {
+
+                const count =
+                    likeButton.querySelector(
+                        ".like-count"
+                    );
+
+                count.textContent =
+                    result.likesCount;
+
+                if (result.liked) {
+
+                    likeButton.classList.add(
+                        "liked"
+                    );
+
+                } else {
+
+                    likeButton.classList.remove(
+                        "liked"
+                    );
+                }
+            }
+        }
+
+        const commentsButton =
+        event.target.closest(
+            ".comments-button"
+        );
+
+        if (commentsButton) {
+
+            const postCard =
+                commentsButton.closest(
+                    ".post-card"
+                );
+
+            const commentsSection =
+                postCard.querySelector(
+                    ".comments-section"
+                );
+
+            const postId =
+                commentsButton.dataset.id;
+
+            const isHidden = commentsSection.hidden;
+
+            if (isHidden) {
+            const comments = await getComments(postId);
+
+            const commentsList =
+                commentsSection.querySelector(".comments-list");
+
+            renderComments(comments, commentsList);
+
+            commentsSection.hidden = false;
+            } else {
+            commentsSection.hidden = true;
+            }
+        }
+
+        // =========================
+        // ELIMINAR POST
+        // =========================
+
         if (
             event.target.classList.contains(
                 "delete-post-button"
@@ -642,6 +1036,113 @@ document.addEventListener(
 
                 await deletePost(id);
             }
+        }
+
+    }
+);
+
+document.addEventListener(
+    "submit",
+    async (event) => {
+
+        if (
+            !event.target.classList.contains(
+                "comment-form"
+            )
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const form =
+            event.target;
+
+        const postCard =
+            form.closest(
+                ".post-card"
+            );
+
+        const postId =
+            postCard.querySelector(
+                ".like-button"
+            ).dataset.id;
+
+        const input =
+            form.querySelector(
+                ".comment-input"
+            );
+
+        const content =
+            input.value.trim();
+
+        if (!content) {
+            return;
+        }
+
+        const comment =
+            await createComment(
+                postId,
+                content
+            );
+
+        if (comment) {
+
+            input.value = "";
+
+            const commentsList =
+                postCard.querySelector(
+                    ".comments-list"
+                );
+
+            const comments =
+                await getComments(
+                    postId
+                );
+
+            renderComments(
+                comments,
+                commentsList
+            );
+        }
+
+    }
+);
+
+document.addEventListener(
+    "click",
+    async (event) => {
+
+        const button =
+            event.target.closest(
+                ".delete-comment-button"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        const commentId =
+            button.dataset.id;
+
+        if (
+            !confirm(
+                "¿Deseas eliminar este comentario?"
+            )
+        ) {
+            return;
+        }
+
+        const deleted =
+            await deleteComment(
+                commentId
+            );
+
+        if (deleted) {
+
+            button
+                .closest(".comment-item")
+                .remove();
         }
 
     }

@@ -180,11 +180,73 @@ const eliminarPub = async (req, res) => {
     }
 };
 
+const toggleLike = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const post =
+            await Post.findById(id);
+
+        if (!post) {
+            return res.status(404).json({
+                message: "Publicación no encontrada"
+            });
+        }
+
+        const userId = req.user.id;
+
+        const alreadyLiked =
+            post.likes.some(
+                like => like.toString() === userId
+            );
+
+        if (alreadyLiked) {
+
+            // Quitar like
+
+            post.likes =
+                post.likes.filter(
+                    like =>
+                        like.toString() !== userId
+                );
+
+        } else {
+
+            // Agregar like
+
+            post.likes.push(userId);
+        }
+
+        await post.save();
+
+        res.json({
+            message: alreadyLiked
+                ? "Like eliminado"
+                : "Like agregado",
+
+            liked: !alreadyLiked,
+
+            likesCount:
+                post.likes.length
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "Error al procesar el like"
+        });
+    }
+};
 
 module.exports = {
     crearPub,
     getPubs,
     getPubsId,
     actualizarPub,
-    eliminarPub
+    eliminarPub,
+    toggleLike
 };

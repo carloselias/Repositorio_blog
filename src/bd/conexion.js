@@ -23,7 +23,7 @@ const conectarBD = async () => {
         databaseError =
             error.code ||
             error.name ||
-            "DATABASE_CONNECTION_ERROR";
+            "500_DATABASE_CONNECTION_ERROR";
 
         throw error;
     }
@@ -49,7 +49,7 @@ mongoose.connection.on(
         );
 
         databaseError =
-            "DATABASE_DISCONNECTED";
+            "503_DATABASE_DISCONNECTED";
     }
 );
 mongoose.connection.on(
@@ -75,7 +75,7 @@ mongoose.connection.on(
         databaseError =
             error.code ||
             error.name ||
-            "DATABASE_CONNECTION_ERROR";
+            "500_DATABASE_CONNECTION_ERROR";
     }
 );
 
