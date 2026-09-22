@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Mi perfil</title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="blog-header">
+
+    <div class="header-container">
+
+        <a
+            href="index.html"
+            class="blog-logo"
+        >
+            Blog 1
+        </a>
+
+
+        <div class="user-section">
+
+            <span
+                class="user-name"
+                id="header-user-name"
+            >
+                Usuario
+            </span>
+
+            <button
+                id="logout-button"
+                class="logout-button"
+            >
+                Cerrar sesión
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="blog-main">
+
+    <section class="profile-section">
+
+        <div class="section-header">
+
+            <h1 class="section-title">
+                Mi perfil
+            </h1>
+
+        </div>
+
+
+        <form
+            id="profile-form"
+            class="post-form"
+        >
+
+
+            <!-- Foto de perfil -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Foto de perfil
+                </label>
+
+
+                <div
+                    id="profile-image-container"
+                    class="profile-image-container"
+                >
+
+                    <p id="no-profile-image">
+                        No tienes una foto de perfil.
+                    </p>
+
+                </div>
+
+
+                <input
+                    type="file"
+                    id="profile-image"
+                    class="form-input"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                >
+
+
+                <small class="form-help">
+                    JPG, PNG, WEBP o GIF. Máximo 5 MB.
+                </small>
+
+            </div>
+
+
+            <!-- Nombre -->
+
+            <div class="form-group">
+
+                <label
+                    for="profile-name"
+                    class="form-label"
+                >
+                    Nombre
+                </label>
+
+
+                <input
+                    type="text"
+                    id="profile-name"
+                    class="form-input"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Correo -->
+
+            <div class="form-group">
+
+                <label
+                    for="profile-email"
+                    class="form-label"
+                >
+                    Correo electrónico
+                </label>
+
+
+                <input
+                    type="email"
+                    id="profile-email"
+                    class="form-input"
+                    disabled
+                >
+
+
+                <small class="form-help">
+                    El correo electrónico no puede modificarse desde esta pantalla.
+                </small>
+
+            </div>
+
+
+            <!-- Descripción -->
+
+            <div class="form-group">
+
+                <label
+                    for="profile-description"
+                    class="form-label"
+                >
+                    Descripción
+                </label>
+
+
+                <textarea
+                    id="profile-description"
+                    class="form-textarea"
+                    rows="5"
+                    maxlength="500"
+                    placeholder="Cuéntanos algo sobre ti..."
+                ></textarea>
+
+
+                <small class="form-help">
+                    Máximo 500 caracteres.
+                </small>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="index.html"
+                    class="cancel-button"
+                >
+                    Cancelar
+                </a>
+
+
+                <button
+                    type="submit"
+                    id="save-profile-button"
+                    class="save-post-button"
+                >
+                    Guardar cambios
+                </button>
+
+            </div>
+
+
+            <p
+                id="profile-message"
+                class="form-message"
+            ></p>
+
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<footer class="blog-footer">
+
+    <p>
+        Blog 1. Blog educativo.
+    </p>
+
+</footer>
+
+
+<script src="perfilUser.js"></script>
+
+</body>
+
+</html>

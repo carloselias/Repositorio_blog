@@ -27,6 +27,13 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user"
         },
+        
+        description: {
+            type: String,
+            default: null,
+            trim: true,
+            maxlength: 500
+        },
 
         profileImage: {
             type: String,

@@ -1,8 +1,6 @@
 const multer = require("multer");
 const path = require("path");
 
-console.log(">>> uploadMiddleware.js CARGADO");
-
 const almacenamiento = multer.diskStorage({
 
     destination: (req, file, cb) => {
@@ -28,13 +26,11 @@ const almacenamiento = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    console.log("========== ARCHIVO ==========");
-    console.log("Nombre:", file.originalname);
-    console.log("MIME:", file.mimetype);
-    console.log("Campo:", file.fieldname);
-    console.log("=============================");
-
-    cb(null, true);
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/webp" || file.mimetype === "image/gif") {
+        cb(null, true);
+    } else {
+        cb(new Error("Solo se permiten archivos JPEG, PNG, JPG, WEBP y GIF"), false);
+    }
 };
 
 const subir = multer({

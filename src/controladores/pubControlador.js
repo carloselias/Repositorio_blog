@@ -40,7 +40,7 @@ const crearPub = async (req, res) => {
 const getPubs = async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate("author", "name email role")
+            .populate("author", "name email role profileImage")
             .sort({ createdAt: -1 });
 
         res.json({

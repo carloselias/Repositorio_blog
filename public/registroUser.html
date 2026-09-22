@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crear cuenta</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="blog-header">
+
+    <div class="header-container">
+
+        <a href="index.html" class="blog-logo">
+            Blog 1
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="blog-main">
+
+    <section class="register-section">
+
+        <div class="section-header">
+
+            <h1 class="section-title">
+                Crear cuenta
+            </h1>
+
+        </div>
+
+
+        <form
+            id="register-form"
+            class="register-form"
+        >
+
+            <div class="form-group">
+
+                <label
+                    for="register-name"
+                    class="form-label"
+                >
+                    Nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="register-name"
+                    class="form-input"
+                    placeholder="Ingresa tu nombre"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label
+                    for="register-email"
+                    class="form-label"
+                >
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="register-email"
+                    class="form-input"
+                    placeholder="ejemplo@correo.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label
+                    for="register-password"
+                    class="form-label"
+                >
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="register-password"
+                    class="form-input"
+                    placeholder="Mínimo 6 caracteres"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label
+                    for="register-password-confirm"
+                    class="form-label"
+                >
+                    Confirmar contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="register-password-confirm"
+                    class="form-input"
+                    placeholder="Repite tu contraseña"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <a
+                    href="index.html"
+                    class="cancel-button"
+                >
+                    Cancelar
+                </a>
+
+                <button
+                    type="submit"
+                    class="save-post-button"
+                >
+                    Registrarse
+                </button>
+
+            </div>
+
+
+            <p
+                id="register-message"
+                class="form-message"
+            ></p>
+
+
+            <p class="register-login-link">
+
+                ¿Ya tienes una cuenta?
+
+                <a href="login.html">
+                    Inicia sesión
+                </a>
+
+            </p>
+
+        </form>
+
+    </section>
+
+</main>
+
+<script src="registroUser.js"></script>
+
+</body>
+</html>

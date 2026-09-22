@@ -1,6 +1,8 @@
 const User = require("../modelos/usuarios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const path = require("path");
 
 const registro = async (req, res) => {
     try {
@@ -138,8 +140,182 @@ const getMe = async (req, res) => {
     }
 };
 
+const updatePerfil = async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            description
+        } = req.body;
+
+
+        const user =
+            await User.findById(req.user.id);
+
+
+        if (!user) {
+
+            return res.status(404).json({
+                message:
+                    "Usuario no encontrado"
+            });
+
+        }
+
+
+        if (name !== undefined) {
+
+            if (!name.trim()) {
+
+                return res.status(400).json({
+                    message:
+                        "El nombre no puede estar vacío"
+                });
+
+            }
+
+            user.name =
+                name.trim();
+
+        }
+
+
+        if (description !== undefined) {
+
+            user.description =
+                description.trim();
+
+        }
+
+
+        const oldProfileImage =
+            user.profileImage;
+
+
+        if (req.file) {
+
+            user.profileImage =
+                `/images/${req.file.filename}`;
+
+        }
+
+
+        await user.save();
+
+
+        /*
+         * Si se cambió la imagen,
+         * eliminamos la anterior.
+         */
+
+        if (
+            req.file &&
+            oldProfileImage
+        ) {
+
+            deletePerfilImage(
+                oldProfileImage
+            );
+
+        }
+
+
+        res.json({
+
+            message:
+                "Perfil actualizado correctamente",
+
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                description: user.description,
+                profileImage: user.profileImage
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Error al actualizar perfil:",
+            error
+        );
+
+
+        res.status(500).json({
+
+            message:
+                "Error al actualizar el perfil"
+
+        });
+
+    }
+
+};
+
+const deletePerfilImage = (imagePath) => {
+
+    if (!imagePath) {
+        return;
+    }
+
+
+    const filename =
+        path.basename(imagePath);
+
+
+    const filePath =
+        path.join(
+            __dirname,
+            "../../images",
+            filename
+        );
+
+
+    fs.unlink(
+        filePath,
+        (error) => {
+
+            if (error) {
+
+                if (error.code === "ENOENT") {
+
+                    console.log(
+                        "La imagen de perfil ya no existe:",
+                        filePath
+                    );
+
+                    return;
+
+                }
+
+
+                console.error(
+                    "Error al eliminar imagen de perfil:",
+                    error
+                );
+
+                return;
+
+            }
+
+
+            console.log(
+                "Imagen de perfil anterior eliminada:",
+                filePath
+            );
+
+        }
+    );
+
+};
+
 module.exports = {
     registro,
     login,
-    getMe
+    getMe,
+    updatePerfil
 };

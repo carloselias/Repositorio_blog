@@ -47,7 +47,6 @@ function renderPosts(posts) {
     posts.forEach(post => {
         const authorId =
             post.author?._id?.toString();
-
         const currentUserId =
             currentUser?._id?.toString();
 
@@ -89,7 +88,7 @@ function renderPosts(posts) {
         article.className = "post-card";
 
         article.innerHTML = `
-
+        
             ${
                 post.image
                 ? `
@@ -113,6 +112,24 @@ function renderPosts(posts) {
                 </h2>
 
                 <div class="post-metadata">
+                    ${
+                        post.author?.profileImage
+                        ? 
+                        `
+                            <img
+                            src="${post.author.profileImage}"
+                            alt="${post.author.name || "Usuario"}"
+                            class="post-author-icon"
+                            >
+                        `
+                        : `
+                            <img
+                            src="/svg/default-user-icon.svg"
+                            alt="Usuario"
+                            class="post-author-icon"
+                            >
+                        `
+                    }
 
                     <span class="post-author">
                         ${post.author?.name || "Usuario"}
@@ -352,47 +369,48 @@ function closeLoginModal() {
     modal.style.display = "none";
 }
 
+function redirectToProfile() {
+  window.location.href = "perfilUser.html";
+}
+
 function updateUserInterface() {
 
-    const userName =
-        document.querySelector(".user-name");
+    const userIcon = document.querySelector(".user-icon");
 
-    const loginButton =
-        document.querySelector("#login-button");
+    const userName = document.querySelector(".user-name");
 
-    const logoutButton =
-        document.querySelector("#logout-button");
+    const loginButton = document.querySelector("#login-button");
 
+    const logoutButton = document.querySelector("#logout-button");
+
+    const registerButton = document.querySelector("#register-button");
 
     if (currentUser) {
 
         /*
          * Usuario autenticado
          */
-
-        userName.textContent =
-            currentUser.name;
-
-        loginButton.style.display =
-            "none";
-
-        logoutButton.style.display =
-            "inline-block";
+        if (currentUser.profileImage) {
+            userIcon.src = currentUser.profileImage;
+        }
+        userName.textContent = currentUser.name;
+        loginButton.style.display = "none";
+        logoutButton.style.display = "inline-block";
+        registerButton.style.display = "none";
+        userName.style.cursor = "pointer";
+        userName.addEventListener("click", redirectToProfile);
 
     } else {
 
         /*
          * Usuario no autenticado
          */
-
-        userName.textContent =
-            "Invitado";
-
-        loginButton.style.display =
-            "inline-block";
-
-        logoutButton.style.display =
-            "none";
+        userIcon.src = "/svg/default-user-icon.svg"; // Limpiar la fuente del icono del usuario
+        userName.textContent = "Invitado";
+        loginButton.style.display = "inline-block";
+        logoutButton.style.display = "none";
+        userName.style.cursor = "none";
+        userName.removeEventListener("click", redirectToProfile);
     }
 }
 
@@ -1162,6 +1180,16 @@ document.addEventListener(
             await getCurrentUser();
 
         if (user) {
+            
+            const userIcon =
+                document.querySelector(
+                    ".user-icon"
+                );
+
+            if (user.profileImage) {
+                userIcon.src =
+                    user.profileImage;
+            }
 
             const userName =
                 document.querySelector(
@@ -1172,6 +1200,8 @@ document.addEventListener(
                 userName.textContent =
                     user.name;
             }
+
+            userName.addEventListener("click", redirectToProfile);
         }
 
     }
